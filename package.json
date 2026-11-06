@@ -1,0 +1,27 @@
+{
+  "name": "gizita",
+  "version": "1.0.0",
+  "description": "Sistem Informasi Pemantauan dan Perencanaan Gizi Balita Berbasis Web di Puskesmas Kebun Kopi",
+  "private": true,
+  "scripts": {
+    "start": "node start.js",
+    "dev": "node start.js",
+    "start:backend": "node backend/src/server.js",
+    "dev:backend": "nodemon backend/src/server.js",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "test:backend": "node backend/src/tests/runTests.js",
+    "seed": "node backend/src/seeders/seed.js"
+  },
+  "keywords": [
+    "antropometri",
+    "stunting",
+    "who-lms",
+    "puskesmas",
+    "posyandu",
+    "gizita"
+  ],
+  "author": "Puskesmas Kebun Kopi / Tim Gizita",
+  "license": "ISC"
+}
+
