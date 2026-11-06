@@ -61,7 +61,7 @@ function App() {
             </p>
             <div className="mt-6 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-1">
               <span className="font-semibold block text-slate-800">Pemberitahuan Lisensi:</span>
-              <span>Silakan hubungi pengembang aplikasi untuk penyelesaian administrasi serah terima atau aktivasi lisensi resmi.</span>
+              <span>Silakan hubungi Hamdani untuk penyelesaian Pembayaran dan aktivasi lisensi resmi.</span>
             </div>
           </div>
         </div>
