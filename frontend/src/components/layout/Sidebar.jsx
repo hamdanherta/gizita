@@ -134,7 +134,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-6">
           <div>
             <p className="px-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
-              Menu Utama (Tahap 1)
+              Menu Utama
             </p>
             <nav className="space-y-1">
               {currentMenus.map((item) => (
@@ -142,22 +142,11 @@ const Sidebar = ({ isOpen, onClose }) => {
               ))}
             </nav>
           </div>
-
-          {/* Development Roadmap Indicator for Thesis */}
-          <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-2xl text-xs space-y-1.5">
-            <div className="flex items-center gap-1.5 text-teal-700 font-semibold">
-              <Clock className="w-3.5 h-3.5" />
-              <span>Target Tahap 2</span>
-            </div>
-            <p className="text-[11px] text-slate-700 leading-relaxed">
-              Kalkulasi Antropometri Z-Score WHO & Grafik KMS digital sedang dikembangkan.
-            </p>
-          </div>
         </div>
 
         {/* Footer Info */}
         <div className="p-4 border-t border-slate-100 text-xs text-slate-600 text-center">
-          <p className="font-semibold text-slate-700">Gizita v0.4 (Tahap 1)</p>
+          <p className="font-semibold text-slate-700">{appName}</p>
           <p className="text-[10px] text-slate-600">Sistem Informasi Gizi Balita</p>
         </div>
       </aside>
