@@ -36,7 +36,16 @@ const Dashboard = () => {
         setData(statsRes.data.data);
       }
       if (balitaRes.data?.success) {
-        setBalitaList(balitaRes.data.data?.rows || balitaRes.data.data || []);
+        const raw = balitaRes.data.data;
+        if (Array.isArray(raw)) {
+          setBalitaList(raw);
+        } else if (raw && Array.isArray(raw.balita)) {
+          setBalitaList(raw.balita);
+        } else if (raw && Array.isArray(raw.rows)) {
+          setBalitaList(raw.rows);
+        } else {
+          setBalitaList([]);
+        }
       }
     } catch (err) {
       console.error('Gagal mengambil data dashboard bimbingan:', err);
@@ -97,9 +106,9 @@ const Dashboard = () => {
           icon={Baby}
         />
         <StatCard
-          title="Data Orang Tua"
-          value={ringkasan?.totalOrangTua || 0}
-          subtitle="Kepala keluarga / Wali"
+          title="Pengguna Sistem"
+          value={ringkasan?.totalPengguna || 3}
+          subtitle="Admin, Petugas & Dokter"
           icon={Users}
         />
         <StatCard
@@ -138,7 +147,7 @@ const Dashboard = () => {
             </Link>
           </div>
 
-          {balitaList.length === 0 ? (
+          {!Array.isArray(balitaList) || balitaList.length === 0 ? (
             <div className="text-center py-10 bg-slate-50/60 rounded-xl border border-dashed border-slate-200">
               <Baby className="w-8 h-8 text-slate-300 mx-auto mb-2" />
               <p className="text-xs text-slate-700">Belum ada data balita yang dimasukkan.</p>
@@ -170,7 +179,7 @@ const Dashboard = () => {
                         {b.tanggal_lahir ? new Date(b.tanggal_lahir).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'}
                       </td>
                       <td className="py-3 px-3 text-slate-700">
-                        {b.posyandu?.nama_posyandu || '-'}
+                        {b.wilayah_posyandu?.nama_posyandu || b.posyandu?.nama_posyandu || '-'}
                       </td>
                       <td className="py-3 px-3 text-right">
                         <Link
