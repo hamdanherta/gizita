@@ -26,6 +26,8 @@ frontend/dist/
 Thumbs.db
 
 # Temporary & Secret backups
+.modes/
+switch-mode.js
 *.raw.js
 *.original.js
 *.bak
