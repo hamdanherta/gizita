@@ -81,6 +81,84 @@ class AuthController {
     }
   }
 
+  static async register(req, res, next) {
+    try {
+      const { nama, username, email, password, role, no_hp } = req.body;
+
+      if (!nama || !username || !email || !password || !role) {
+        return res.status(400).json({
+          success: false,
+          message: 'Nama lengkap, username, email, kata sandi, dan role wajib diisi.'
+        });
+      }
+
+      const validRoles = ['admin', 'petugas_gizi', 'dokter'];
+      if (!validRoles.includes(role)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Role yang dipilih tidak valid. Pilihan: Administrator, Petugas Gizi, atau Dokter.'
+        });
+      }
+
+      if (password.length < 6) {
+        return res.status(400).json({
+          success: false,
+          message: 'Kata sandi minimal 6 karakter.'
+        });
+      }
+
+      // Cek apakah username atau email sudah terpakai
+      const existingUser = await User.findOne({
+        where: {
+          [Op.or]: [{ username }, { email }]
+        }
+      });
+
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: existingUser.username.toLowerCase() === username.toLowerCase()
+            ? 'Username sudah digunakan, silakan pilih username lain.'
+            : 'Email sudah terdaftar, silakan gunakan email lain.'
+        });
+      }
+
+      // Hubungkan ke puskesmas default jika ada
+      const pusk = await Puskesmas.findOne();
+      const puskesmas_id = pusk ? pusk.id : null;
+
+      const salt = await bcrypt.genSalt(10);
+      const password_hash = await bcrypt.hash(password, salt);
+
+      const newUser = await User.create({
+        nama,
+        username,
+        email,
+        password_hash,
+        role,
+        no_hp: no_hp || null,
+        puskesmas_id,
+        status_aktif: true
+      });
+
+      await logActivity(req, 'REGISTER', 'AUTH', `Pengguna baru ${newUser.nama} mendaftar sebagai ${newUser.role}.`);
+
+      return res.status(201).json({
+        success: true,
+        message: 'Registrasi akun berhasil! Silakan masuk dengan akun Anda.',
+        data: {
+          id: newUser.id,
+          nama: newUser.nama,
+          username: newUser.username,
+          email: newUser.email,
+          role: newUser.role
+        }
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async getMe(req, res, next) {
     try {
       const user = req.user;

@@ -28,6 +28,7 @@ const DashboardController = require('../controllers/dashboardController');
 // 1. AUTH & PROFIL (Semua role)
 // ==========================================
 router.post('/auth/login', AuthController.login);
+router.post('/auth/register', AuthController.register);
 router.post('/auth/logout', verifyToken, AuthController.logout);
 router.get('/auth/me', verifyToken, AuthController.getMe);
 router.put('/auth/profile', verifyToken, AuthController.updateProfile);

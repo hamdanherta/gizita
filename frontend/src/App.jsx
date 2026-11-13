@@ -7,6 +7,7 @@ import ProtectedRoute from './components/layout/ProtectedRoute';
 
 // Pages - Tahap 1 (Autentikasi & Profil)
 import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 import Dashboard from './pages/common/Dashboard';
 import Profile from './pages/common/Profile';
 import Notifications from './pages/common/Notifications';
@@ -77,6 +78,7 @@ function App() {
       <Routes>
         {/* Public Route */}
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Protected Routes inside AppLayout */}
         <Route element={<ProtectedRoute />}>

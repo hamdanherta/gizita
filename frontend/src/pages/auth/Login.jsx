@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Baby, Lock, User, Eye, EyeOff, ShieldCheck, HeartPulse, Activity } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Baby, Lock, User, Eye, EyeOff, ShieldCheck, HeartPulse, Activity, UserPlus } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useSettings } from '../../context/SettingsContext';
@@ -184,6 +184,17 @@ const Login = () => {
               >
                 Masuk Sekarang
               </Button>
+
+              <div className="pt-2 text-center">
+                <p className="text-xs text-slate-500 mb-2">Belum memiliki akun terdaftar?</p>
+                <Link
+                  to="/register"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-teal-600/30 bg-teal-50/50 hover:bg-teal-50 hover:border-teal-600 text-teal-700 text-xs font-bold transition-all shadow-2xs active:scale-[0.98]"
+                >
+                  <UserPlus className="w-4 h-4" />
+                  Daftar Akun Baru (Admin, Petugas, Dokter)
+                </Link>
+              </div>
             </form>
 
             {/* Demo Accounts Box for Rapid Testing */}
