@@ -11,7 +11,8 @@
     "dev:frontend": "npm --prefix frontend run dev",
     "build:frontend": "npm --prefix frontend run build",
     "test:backend": "node backend/src/tests/runTests.js",
-    "seed": "node backend/src/seeders/index.js"
+    "seed": "node backend/src/seeders/index.js",
+    "db:export": "node backend/src/seeders/exportSql.js"
   },
   "keywords": [
     "antropometri",
