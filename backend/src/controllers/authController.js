@@ -77,7 +77,11 @@ class AuthController {
         }
       });
     } catch (err) {
-      next(err);
+      console.error('Registration Error:', err);
+      return res.status(400).json({
+        success: false,
+        message: err.message || 'Pendaftaran gagal. Silakan periksa kembali data Anda.'
+      });
     }
   }
 
@@ -155,7 +159,11 @@ class AuthController {
         }
       });
     } catch (err) {
-      next(err);
+      console.error('Registration Error:', err);
+      return res.status(400).json({
+        success: false,
+        message: err.message || 'Pendaftaran gagal. Silakan periksa kembali data Anda.'
+      });
     }
   }
 
@@ -177,7 +185,11 @@ class AuthController {
         }
       });
     } catch (err) {
-      next(err);
+      console.error('Registration Error:', err);
+      return res.status(400).json({
+        success: false,
+        message: err.message || 'Pendaftaran gagal. Silakan periksa kembali data Anda.'
+      });
     }
   }
 
@@ -213,7 +225,11 @@ class AuthController {
         }
       });
     } catch (err) {
-      next(err);
+      console.error('Registration Error:', err);
+      return res.status(400).json({
+        success: false,
+        message: err.message || 'Pendaftaran gagal. Silakan periksa kembali data Anda.'
+      });
     }
   }
 
@@ -246,7 +262,11 @@ class AuthController {
         message: 'Kata sandi berhasil diubah.'
       });
     } catch (err) {
-      next(err);
+      console.error('Registration Error:', err);
+      return res.status(400).json({
+        success: false,
+        message: err.message || 'Pendaftaran gagal. Silakan periksa kembali data Anda.'
+      });
     }
   }
 
@@ -260,7 +280,11 @@ class AuthController {
         message: 'Logout berhasil.'
       });
     } catch (err) {
-      next(err);
+      console.error('Registration Error:', err);
+      return res.status(400).json({
+        success: false,
+        message: err.message || 'Pendaftaran gagal. Silakan periksa kembali data Anda.'
+      });
     }
   }
 }

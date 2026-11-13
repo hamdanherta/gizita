@@ -1,6 +1,8 @@
 const app = require('./app');
-const { sequelize } = require('./models');
+const { sequelize, Puskesmas, WilayahPosyandu, PengaturanSistem, WhoLms } = require('./models');
 const CronService = require('./services/cronService');
+const whoStandards = require('who-growth-standards');
+const mysql = require('mysql2/promise');
 const path = require('path');
 const fs = require('fs');
 
@@ -12,9 +14,107 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
+async function ensureDatabaseAndSchema() {
+  const dbName = process.env.DB_NAME || 'gizita_db';
+  const host = process.env.DB_HOST || '127.0.0.1';
+  const port = parseInt(process.env.DB_PORT || '3306', 10);
+  const user = process.env.DB_USER || 'root';
+  const password = process.env.DB_PASS || '';
+
+  // 1. Buat database gizita_db jika belum ada di MySQL
+  try {
+    const rawConn = await mysql.createConnection({ host, port, user, password });
+    await rawConn.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
+    await rawConn.end();
+  } catch (err) {
+    console.warn('⚠️ Peringatan koneksi awal database:', err.message);
+  }
+
+  // 2. Buat seluruh tabel otomatis jika belum ada di database
+  await sequelize.sync();
+  console.log('✅ Skema tabel database (19 tabel) siap dan sinkron!');
+
+  // 3. Pastikan data profil Puskesmas default ada
+  try {
+    let pusk = await Puskesmas.findOne();
+    if (!pusk) {
+      pusk = await Puskesmas.create({
+        nama: 'Puskesmas Kebun Kopi',
+        alamat: 'Jl. Kebun Kopi No. 45, Kel. Thehok, Kec. Jambi Selatan, Kota Jambi',
+        telepon: '0741-654321',
+        email: 'kebunkopi.pusk@gmail.com',
+        kepala: 'dr. Hj. Siti Rahma, M.Kes'
+      });
+
+      await WilayahPosyandu.bulkCreate([
+        { puskesmas_id: pusk.id, nama_posyandu: 'Posyandu Mawar', kelurahan_desa: 'Thehok', alamat: 'RT 04 Kelurahan Thehok' },
+        { puskesmas_id: pusk.id, nama_posyandu: 'Posyandu Melati', kelurahan_desa: 'Handil Jaya', alamat: 'RT 12 Kelurahan Handil Jaya' },
+        { puskesmas_id: pusk.id, nama_posyandu: 'Posyandu Anggrek', kelurahan_desa: 'Paal Merah', alamat: 'RT 08 Kelurahan Paal Merah' },
+        { puskesmas_id: pusk.id, nama_posyandu: 'Posyandu Kamboja', kelurahan_desa: 'Kebun Kopi', alamat: 'RT 15 Kelurahan Kebun Kopi' }
+      ]);
+    }
+
+    const pSettings = await PengaturanSistem.count();
+    if (pSettings === 0) {
+      await PengaturanSistem.bulkCreate([
+        { key: 'nama_aplikasi', value: 'Gizita' },
+        { key: 'logo_url', value: '/logo.png' },
+        { key: 'nama_puskesmas', value: 'Puskesmas Kebun Kopi' },
+        { key: 'alamat_puskesmas', value: 'Jl. Kebun Kopi No. 45, Kota Jambi' },
+        { key: 'kontak_puskesmas', value: '0741-654321 / 0812-7890-1234' },
+        { key: 'hari_pengingat_notifikasi', value: '1' }
+      ]);
+    }
+
+    const whoCount = await WhoLms.count();
+    if (whoCount === 0) {
+      const whoRows = [];
+      for (const sex of ['male', 'female']) {
+        const table = whoStandards.getTable('wfa', sex);
+        const genderKey = sex === 'male' ? 'L' : 'P';
+        for (let month = 0; month <= 60; month++) {
+          const day = Math.min(Math.round(month * 30.4375), table.lms.length - 1);
+          const lms = table.lms[day];
+          if (lms) whoRows.push({ indikator: 'BBU', jenis_kelamin: genderKey, umur_bulan_atau_tinggi: month, L: lms[0], M: lms[1], S: lms[2] });
+        }
+      }
+      for (const sex of ['male', 'female']) {
+        const table = whoStandards.getTable('lhfa', sex);
+        const genderKey = sex === 'male' ? 'L' : 'P';
+        for (let month = 0; month <= 60; month++) {
+          const day = Math.min(Math.round(month * 30.4375), table.lms.length - 1);
+          const lms = table.lms[day];
+          if (lms) whoRows.push({ indikator: 'TBU', jenis_kelamin: genderKey, umur_bulan_atau_tinggi: month, L: lms[0], M: lms[1], S: lms[2] });
+        }
+      }
+      for (const sex of ['male', 'female']) {
+        const table = whoStandards.getTable('wfl', sex);
+        const genderKey = sex === 'male' ? 'L' : 'P';
+        for (let cm = 45.0; cm <= 110.0; cm += 0.5) {
+          const idx = Math.min(Math.round((cm - table.start) / table.step), table.lms.length - 1);
+          const lms = table.lms[idx];
+          if (lms) whoRows.push({ indikator: 'BBPB', jenis_kelamin: genderKey, umur_bulan_atau_tinggi: cm, L: lms[0], M: lms[1], S: lms[2] });
+        }
+      }
+      for (const sex of ['male', 'female']) {
+        const table = whoStandards.getTable('wfh', sex);
+        const genderKey = sex === 'male' ? 'L' : 'P';
+        for (let cm = 65.0; cm <= 120.0; cm += 0.5) {
+          const idx = Math.min(Math.round((cm - table.start) / table.step), table.lms.length - 1);
+          const lms = table.lms[idx];
+          if (lms) whoRows.push({ indikator: 'BBTB', jenis_kelamin: genderKey, umur_bulan_atau_tinggi: cm, L: lms[0], M: lms[1], S: lms[2] });
+        }
+      }
+      await WhoLms.bulkCreate(whoRows);
+    }
+  } catch (err) {
+    console.warn('⚠️ Catatan inisialisasi master data awal:', err.message);
+  }
+}
+
 async function startServer() {
   try {
-    await sequelize.authenticate();
+    await ensureDatabaseAndSchema();
     console.log('✅ Koneksi ke MySQL Database (gizita_db) berhasil terhubung!');
 
     // Mulai Scheduler Cron Job
@@ -31,4 +131,3 @@ async function startServer() {
 }
 
 startServer();
-
