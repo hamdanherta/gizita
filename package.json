@@ -12,6 +12,7 @@
     "build:frontend": "npm --prefix frontend run build",
     "test:backend": "node backend/src/tests/runTests.js",
     "seed": "node backend/src/seeders/index.js",
+    "db:import": "node backend/src/seeders/importSql.js",
     "db:export": "node backend/src/seeders/exportSql.js"
   },
   "keywords": [
