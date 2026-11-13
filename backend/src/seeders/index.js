@@ -291,7 +291,17 @@ async function seedDatabase() {
     }
   ]);
 
-  // 7. Data 20 Balita & Orang Tua Contoh dengan Riwayat Pengukuran
+  // 7. Data Balita & Orang Tua (Dikosongkan secara default untuk bimbingan/bersih)
+  const withDummy = process.argv.includes('--with-dummy');
+  if (!withDummy) {
+    console.log('\n✨ Database siap! Akun resmi (admin, petugas, dokter), Posyandu, dan standar WHO LMS telah aktif.');
+    console.log('💡 Data balita dan riwayat pengukuran dibiarkan kosong (0 data) agar siap untuk demonstrasi bimbingan.');
+    console.log('\n====================================================');
+    console.log('🎉 SEED DATABASE BERHASIL (AKUN RESMI & MASTER DATA AKTIF)!');
+    console.log('====================================================\n');
+    return;
+  }
+
   console.log('🌱 Menyiapkan 20 balita, orang tua, dan riwayat pengukuran multi-bulan...');
 
   const sampleParents = [
