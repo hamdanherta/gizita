@@ -205,29 +205,29 @@ const Login = () => {
               <div className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
-                  onClick={() => handleQuickLogin('admin', 'admin123')}
+                  onClick={() => handleQuickLogin('saragizi', 'saragizi')}
                   className="flex flex-col items-center justify-center p-2.5 rounded-xl border border-slate-200 bg-white hover:border-teal-500 hover:bg-teal-50/50 transition-all text-center group"
                 >
                   <span className="text-xs font-bold text-slate-800 group-hover:text-teal-700">Admin</span>
-                  <span className="text-[10px] text-slate-400 font-mono mt-0.5">admin123</span>
+                  <span className="text-[10px] text-slate-400 font-mono mt-0.5">saragizi</span>
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => handleQuickLogin('petugas', 'petugas123')}
+                  onClick={() => handleQuickLogin('ditagizi', 'ditagizi')}
                   className="flex flex-col items-center justify-center p-2.5 rounded-xl border border-slate-200 bg-white hover:border-teal-500 hover:bg-teal-50/50 transition-all text-center group"
                 >
                   <span className="text-xs font-bold text-slate-800 group-hover:text-teal-700">Petugas Gizi</span>
-                  <span className="text-[10px] text-slate-400 font-mono mt-0.5">petugas123</span>
+                  <span className="text-[10px] text-slate-400 font-mono mt-0.5">ditagizi</span>
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => handleQuickLogin('dokter', 'dokter123')}
+                  onClick={() => handleQuickLogin('rasyidgizi', 'rasyidgizi')}
                   className="flex flex-col items-center justify-center p-2.5 rounded-xl border border-slate-200 bg-white hover:border-teal-500 hover:bg-teal-50/50 transition-all text-center group"
                 >
                   <span className="text-xs font-bold text-slate-800 group-hover:text-teal-700">Dokter</span>
-                  <span className="text-[10px] text-slate-400 font-mono mt-0.5">dokter123</span>
+                  <span className="text-[10px] text-slate-400 font-mono mt-0.5">rasyidgizi</span>
                 </button>
               </div>
             </div>

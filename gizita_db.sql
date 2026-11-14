@@ -92,12 +92,12 @@ INSERT INTO `wilayah_posyandu` (`id`, `puskesmas_id`, `nama_posyandu`, `keluraha
 (4, 1, 'Posyandu Kamboja', 'Kebun Kopi', 'RT 15 Kelurahan Kebun Kopi', 'Ibu Mariana', '081234567804', NOW(), NOW());
 
 -- -------------------------------------------------------------
--- Data: Akun Pengguna Resmi (Password: admin123, petugas123, dokter123)
+-- Data: Akun Pengguna Resmi (Password: saragizi, ditagizi, rasyidgizi)
 -- -------------------------------------------------------------
 INSERT INTO `users` (`id`, `nama`, `username`, `email`, `password_hash`, `role`, `puskesmas_id`, `no_hp`, `status_aktif`, `createdAt`, `updatedAt`) VALUES
-(1, 'Administrator Gizita', 'admin', 'admin@gizita.id', '$2a$10$H2kUyx2JkpHZgYWru9yokuYIVnov6lgxtnexlcmPKXVS4n5.ObOgy', 'admin', 1, '081111111111', 1, NOW(), NOW()),
-(2, 'Sara Maulidia, S.Gz', 'petugas', 'petugas@gizita.id', '$2a$10$H2kUyx2JkpHZgYWru9yokuLHLA6ANPbBIdLcZiCQdcgjZ6/EIWWrq', 'petugas_gizi', 1, '082222222222', 1, NOW(), NOW()),
-(3, 'dr. Budi Santoso, Sp.A', 'dokter', 'dokter@gizita.id', '$2a$10$H2kUyx2JkpHZgYWru9yokuXa8fIXe4hiJwtLMJEYBzmqZq5y/VA3u', 'dokter', 1, '083333333333', 1, NOW(), NOW());
+(1, 'Administrator Sara', 'saragizi', 'saragizi@gizita.id', '$2a$10$1AfeHPKMS7eZcnbgYEQ6WeVFAB455p54yt.t2fAdWLqdAO..gtJo2', 'admin', 1, '081111111111', 1, NOW(), NOW()),
+(2, 'Dita, S.Gz (Petugas Gizi)', 'ditagizi', 'ditagizi@gizita.id', '$2a$10$1AfeHPKMS7eZcnbgYEQ6We4qmaCpDtsYSciVPfTGVGtWoLvfK/GNO', 'petugas_gizi', 1, '082222222222', 1, NOW(), NOW()),
+(3, 'dr. Rasyid (Dokter Puskesmas)', 'rasyidgizi', 'rasyidgizi@gizita.id', '$2a$10$1AfeHPKMS7eZcnbgYEQ6WemWbi3jEiNVjI.y/WxyiQWhdYQbTSbmK', 'dokter', 1, '083333333333', 1, NOW(), NOW());
 
 -- -------------------------------------------------------------
 -- Data: Standar Pertumbuhan WHO LMS (728 Baris)

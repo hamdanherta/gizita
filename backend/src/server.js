@@ -66,6 +66,45 @@ async function ensureDatabaseAndSchema() {
       ]);
     }
 
+    const uCount = await User.count();
+    if (uCount === 0) {
+      const bcrypt = require('bcryptjs');
+      const salt = await bcrypt.genSalt(10);
+      await User.bulkCreate([
+        {
+          nama: 'Administrator Sara',
+          username: 'saragizi',
+          email: 'saragizi@gizita.id',
+          password_hash: await bcrypt.hash('saragizi', salt),
+          role: 'admin',
+          puskesmas_id: pusk.id,
+          no_hp: '081111111111',
+          status_aktif: true
+        },
+        {
+          nama: 'Dita, S.Gz (Petugas Gizi)',
+          username: 'ditagizi',
+          email: 'ditagizi@gizita.id',
+          password_hash: await bcrypt.hash('ditagizi', salt),
+          role: 'petugas_gizi',
+          puskesmas_id: pusk.id,
+          no_hp: '082222222222',
+          status_aktif: true
+        },
+        {
+          nama: 'dr. Rasyid (Dokter Puskesmas)',
+          username: 'rasyidgizi',
+          email: 'rasyidgizi@gizita.id',
+          password_hash: await bcrypt.hash('rasyidgizi', salt),
+          role: 'dokter',
+          puskesmas_id: pusk.id,
+          no_hp: '083333333333',
+          status_aktif: true
+        }
+      ]);
+      console.log('✅ Akun demo awal (saragizi, ditagizi, rasyidgizi) berhasil dibuat otomatis.');
+    }
+
     const whoCount = await WhoLms.count();
     if (whoCount === 0) {
       const whoRows = [];

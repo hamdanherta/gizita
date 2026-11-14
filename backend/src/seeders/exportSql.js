@@ -74,18 +74,18 @@ async function generateSqlDump() {
   sql += "(3, 1, 'Posyandu Anggrek', 'Paal Merah', 'RT 08 Kelurahan Paal Merah', 'Ibu Ratna Dewi', '081234567803', NOW(), NOW()),\n";
   sql += "(4, 1, 'Posyandu Kamboja', 'Kebun Kopi', 'RT 15 Kelurahan Kebun Kopi', 'Ibu Mariana', '081234567804', NOW(), NOW());\n\n";
 
-  // 4. Users (admin, petugas, dokter)
+  // 4. Users (saragizi, ditagizi, rasyidgizi)
   sql += '-- -------------------------------------------------------------\n';
-  sql += '-- Data: Akun Pengguna Resmi (Password: admin123, petugas123, dokter123)\n';
+  sql += '-- Data: Akun Pengguna Resmi (Password: saragizi, ditagizi, rasyidgizi)\n';
   sql += '-- -------------------------------------------------------------\n';
   const salt = await bcrypt.genSalt(10);
-  const pAdmin = await bcrypt.hash('admin123', salt);
-  const pPetugas = await bcrypt.hash('petugas123', salt);
-  const pDokter = await bcrypt.hash('dokter123', salt);
+  const pAdmin = await bcrypt.hash('saragizi', salt);
+  const pPetugas = await bcrypt.hash('ditagizi', salt);
+  const pDokter = await bcrypt.hash('rasyidgizi', salt);
   sql += 'INSERT INTO `users` (`id`, `nama`, `username`, `email`, `password_hash`, `role`, `puskesmas_id`, `no_hp`, `status_aktif`, `createdAt`, `updatedAt`) VALUES\n';
-  sql += `(1, 'Administrator Gizita', 'admin', 'admin@gizita.id', '${pAdmin}', 'admin', 1, '081111111111', 1, NOW(), NOW()),\n`;
-  sql += `(2, 'Sara Maulidia, S.Gz', 'petugas', 'petugas@gizita.id', '${pPetugas}', 'petugas_gizi', 1, '082222222222', 1, NOW(), NOW()),\n`;
-  sql += `(3, 'dr. Budi Santoso, Sp.A', 'dokter', 'dokter@gizita.id', '${pDokter}', 'dokter', 1, '083333333333', 1, NOW(), NOW());\n\n`;
+  sql += `(1, 'Administrator Sara', 'saragizi', 'saragizi@gizita.id', '${pAdmin}', 'admin', 1, '081111111111', 1, NOW(), NOW()),\n`;
+  sql += `(2, 'Dita, S.Gz (Petugas Gizi)', 'ditagizi', 'ditagizi@gizita.id', '${pPetugas}', 'petugas_gizi', 1, '082222222222', 1, NOW(), NOW()),\n`;
+  sql += `(3, 'dr. Rasyid (Dokter Puskesmas)', 'rasyidgizi', 'rasyidgizi@gizita.id', '${pDokter}', 'dokter', 1, '083333333333', 1, NOW(), NOW());\n\n`;
 
   // 5. Standar WHO LMS
   sql += '-- -------------------------------------------------------------\n';

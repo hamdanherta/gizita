@@ -88,16 +88,16 @@ async function seedDatabase() {
   ]);
 
   // 4. Users (Demo Accounts)
-  console.log('🌱 Menyiapkan akun demo (admin, petugas, dokter)...');
+  console.log('🌱 Menyiapkan akun demo (saragizi, ditagizi, rasyidgizi)...');
   const salt = await bcrypt.genSalt(10);
-  const adminPass = await bcrypt.hash('admin123', salt);
-  const petugasPass = await bcrypt.hash('petugas123', salt);
-  const dokterPass = await bcrypt.hash('dokter123', salt);
+  const adminPass = await bcrypt.hash('saragizi', salt);
+  const petugasPass = await bcrypt.hash('ditagizi', salt);
+  const dokterPass = await bcrypt.hash('rasyidgizi', salt);
 
   const adminUser = await User.create({
-    nama: 'Administrator Gizita',
-    username: 'admin',
-    email: 'admin@gizita.id',
+    nama: 'Administrator Sara',
+    username: 'saragizi',
+    email: 'saragizi@gizita.id',
     password_hash: adminPass,
     role: 'admin',
     puskesmas_id: puskesmas.id,
@@ -106,9 +106,9 @@ async function seedDatabase() {
   });
 
   const petugasUser = await User.create({
-    nama: 'Sara Maulidia, S.Gz',
-    username: 'petugas',
-    email: 'petugas@gizita.id',
+    nama: 'Dita, S.Gz (Petugas Gizi)',
+    username: 'ditagizi',
+    email: 'ditagizi@gizita.id',
     password_hash: petugasPass,
     role: 'petugas_gizi',
     puskesmas_id: puskesmas.id,
@@ -117,9 +117,9 @@ async function seedDatabase() {
   });
 
   const dokterUser = await User.create({
-    nama: 'dr. Budi Santoso, Sp.A',
-    username: 'dokter',
-    email: 'dokter@gizita.id',
+    nama: 'dr. Rasyid (Dokter Puskesmas)',
+    username: 'rasyidgizi',
+    email: 'rasyidgizi@gizita.id',
     password_hash: dokterPass,
     role: 'dokter',
     puskesmas_id: puskesmas.id,
